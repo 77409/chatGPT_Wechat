@@ -9,7 +9,7 @@ x-e4ting-common:
         - ./wxBot:/app/log
     environment:
         - LOG_LEVEL=info # 调整容器输出级别（不影响日志文件输出等级）运行时提示的消息等级（默认info，debug级别会输出详细的日志)
-        - RECVD_MSG_API=http://api.com/api/v4/wx/robot # 如果想自己处理收到消息的逻辑，在下面填上你的API地址, 默认为空
+        - RECVD_MSG_API=http://api.com/api/v4/wx/robot # API地址
         - LOGIN_API_TOKEN=x1233456                     # 登录地址Token访问地址： http://localhost:3001/login?token=[LOCAL_LOGIN_API_TOKEN]
         - TZ=Asia/Shanghai
         - PYTHONPATH=/code
