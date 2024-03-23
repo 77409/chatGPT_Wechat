@@ -1,0 +1,65 @@
+version: '3.8'
+
+x-e4ting-common:
+    &e4ting-common
+    image: e4ting/chatgpt
+    restart: always
+    volumes:
+        - ./wxBot:/tmp/
+        - ./wxBot:/app/log
+    environment:
+        - LOG_LEVEL=info # 调整容器输出级别（不影响日志文件输出等级）运行时提示的消息等级（默认info，debug级别会输出详细的日志)
+        - RECVD_MSG_API=http://api.com/api/v4/wx/robot # 如果想自己处理收到消息的逻辑，在下面填上你的API地址, 默认为空
+        - LOGIN_API_TOKEN=x1233456                     # 登录地址Token访问地址： http://localhost:3001/login?token=[LOCAL_LOGIN_API_TOKEN]
+        - TZ=Asia/Shanghai
+        - PYTHONPATH=/code
+        # - HTTPS_PROXY=http://xxx:xxx@127.0.0.1:8080      # 配置代理，不是必须的
+        - API_KEY=sk-Eulduu4sllVkevjK23s4Z6GO9PBzkdYQmPdStp9FItavfdD7  # chatGPT的token
+        - BASE_URL=https://api.chatanywhere.tech/v1                    # chatGPT的代理地址
+        - WEB_CALLBACK=http://wx.com:3001/webhook/msg/v2?token={LOGIN_API_TOKEN}    # 回调地址，不必改它
+        - AUTO_REPLAY=start   # start/stop , stop : 不会调用chatGPT做任何回复
+
+services:
+  redis:
+    image: redis:6.2.6
+    container_name: redis
+    volumes:
+      - ./redis:/data
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      e4ting:
+        ipv4_address: 172.24.0.13
+        aliases:
+          - redis.com
+
+  api:
+    <<: [*e4ting-common]
+    container_name: api
+    working_dir: /code/web
+    command: env FLASK_APP=webfree flask run -h 0.0.0.0 -p 80 --debug
+    networks:
+      e4ting:
+        ipv4_address: 172.24.0.19
+        aliases:
+          - api.com
+
+  wxBotWebhook:
+    <<: [*e4ting-common]
+    image: dannicool/docker-wechatbot-webhook
+    container_name: wxbot_app
+    # ports:
+    #   - "3001:3001"
+    networks:
+      e4ting:
+        ipv4_address: 172.24.0.18
+        aliases:
+          - wx.com
+
+networks:
+  e4ting:
+    external: true
+    ipam:
+      config:
+      - subnet: 172.24.0.0/24
