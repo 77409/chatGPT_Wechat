@@ -24,21 +24,30 @@ Client: Docker Engine - Community
 3. 请勿在云服务器上折腾，以免微信封号。
 4. 请不要在重要服务器上升级docker。
 5. 最新版compose[下载地址](https://github.com/docker/compose/releases) 注意不能选低于我的版本的。
-6. `docker network create e4ting --subnet=172.24.0.0/24 -o com.docker.network.bridge.name=e4ting`
-7. `docker-compose up`
-8. 用不重要的`微信小号`扫码登录。
+6.
+  ```
+ git clone https://github.com/77409/chatGPT_Wechat.git
+ cd chatGPT_Wechat
+docker network create e4ting --subnet=172.24.0.0/24 -o com.docker.network.bridge.name=e4ting
+docker-compose up
+```
+7. 用不重要的`微信小号`扫码登录。
 
 ## 使用
 - 这个微信（机器人）被人`拍一下`，就会自动开始应答对方的`文字`消息。
 - 关闭回复也是`拍一下`。
 
 ## 几个重要环境变量的用法
-- LOGIN_API_TOKEN=x1233456                     # 尽量换掉，以免不安全
-- HTTPS_PROXY=http://xxx:xxx@127.0.0.1:8080      # 配置代理，不是必须的
-- API_KEY=sk-Eulduu4sllVkevjK23s4Z6GO9PBzkdYQmPdStp9FItavfdD7  # chatGPT的token，可以用我的，也可以去[这里](https://github.com/chatanywhere/GPT_API_free)申请个免费的
-- BASE_URL=https://api.chatanywhere.tech/v1                    # chatGPT的代理地址，不必改它
-- WEB_CALLBACK=http://wx.com:3001/webhook/msg/v2?token={LOGIN_API_TOKEN}    # 回调地址，不必改它
-- AUTO_REPLAY=start   # start/stop , stop : 不会调用chatGPT做任何回复
+- `LOGIN_API_TOKEN=x1233456`                     # 尽量换掉，以免不安全
+- `HTTPS_PROXY=http://xxx:xxx@127.0.0.1:8080`    # 配置代理，不是必须的
+- `API_KEY=sk-Eulduu4sllVkevjK23s4Z6GO9PBzkdYQmPdStp9FItavfdD7`  # chatGPT的token，可以用我的，也可以去[这里](https://github.com/chatanywhere/GPT_API_free)申请个免费的
+- `BASE_URL=https://api.chatanywhere.tech/v1`                    # chatGPT的代理地址，不必改它
+- `AUTO_REPLAY=start`   # start/stop , stop : 不会调用chatGPT做任何回复
+
+改完后记得执行一下
+```
+docker-compose up -d api
+```
 
 ## 常见报错
 1. docker直接报compose文件语法错误；
