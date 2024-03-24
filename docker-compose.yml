@@ -14,8 +14,8 @@ x-e4ting-common:
         - TZ=Asia/Shanghai
         - PYTHONPATH=/code
         # - HTTPS_PROXY=http://xxx:xxx@127.0.0.1:8080      # 配置代理，不是必须的
-        - API_KEY=sk-Eulduu4sllVkevjK23s4Z6GO9PBzkdYQmPdStp9FItavfdD7  # chatGPT的token
-        - BASE_URL=https://api.chatanywhere.tech/v1                    # chatGPT的代理地址
+        - API_KEY=sk-XXxxXXXxxXXXXXXXXXXXXXXXXXXXxxxxxxxx  # chatGPT的token
+        # - BASE_URL=https://api.chatanywhere.tech/v1      # chatGPT的代理地址
         - WEB_CALLBACK=http://wx.com:3001/webhook/msg/v2?token={LOGIN_API_TOKEN}    # 回调地址，不必改它
         - AUTO_REPLAY=start   # start/stop , stop : 不会调用chatGPT做任何回复
 
